@@ -28,6 +28,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath();
+        System.out.println("shouldNotFilter path: " + path);
+
+        return path.equals("/api/auth") ||
+                path.startsWith("/api/auth/") ||
+
+                path.equals("/api/test/public") ||
+                path.startsWith("/api/test/public/") ||
+
+                path.equals("/api/groups") ||
+                path.startsWith("/api/groups/");
+    }
+
+    @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
